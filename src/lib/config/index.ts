@@ -1,11 +1,5 @@
 import { WagmiAdapter } from "@reown/appkit-adapter-wagmi";
-import {
-	AppKitNetwork,
-	arbitrum,
-	mainnet,
-	optimism,
-	polygon,
-} from "@reown/appkit/networks";
+import { AppKitNetwork, polygon } from "@reown/appkit/networks";
 import {
 	createAppKit,
 	useAppKit,
@@ -17,17 +11,19 @@ import {
 	useDisconnect,
 	useWalletInfo,
 } from "@reown/appkit/react";
+import { cookieStorage, createStorage } from "wagmi";
 
 export const projectId =
 	process.env.NEXT_PUBLIC_PROJECT_ID || "b56e18d47c72ab683b10814fe9495694"; // this is a public projectId only to use on localhost
 
-export const networks = [mainnet, polygon, arbitrum, optimism] as [
-	AppKitNetwork,
-	...AppKitNetwork[],
-];
+export const networks = [polygon] as [AppKitNetwork, ...AppKitNetwork[]];
 
 // Setup wagmi adapter
 export const wagmiAdapter = new WagmiAdapter({
+	storage: createStorage({
+		storage: cookieStorage,
+	}),
+	ssr: true,
 	networks,
 	projectId,
 });
