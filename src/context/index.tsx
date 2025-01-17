@@ -22,8 +22,8 @@ if (!projectId) {
 export const appKitMetadata = {
 	name: "NGOLD Wallet",
 	description: "NGOLD Wallet",
-	url: "https://github.com/0xonerb/next-reown-appkit-ssr", // origin must match your domain & subdomain
-	icons: ["https://avatars.githubusercontent.com/u/179229932"],
+	url: "https://wallet-ngold.vercel.app/",
+	icons: [""],
 };
 
 // Create the modal
