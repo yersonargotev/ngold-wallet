@@ -8,11 +8,6 @@ export default function Home() {
 		<div className="page-container">
 			<h1 className="page-title">Wallet NGOLD</h1>
 
-			<div className="appkit-buttons-container">
-				<appkit-button />
-				<appkit-network-button />
-			</div>
-
 			<ActionButtonList />
 			<InfoList />
 		</div>
