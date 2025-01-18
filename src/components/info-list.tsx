@@ -3,63 +3,66 @@
 import {
 	useAppKitAccount,
 	useAppKitEvents,
-	useAppKitNetwork,
 	useAppKitState,
 	useAppKitTheme,
 	useWalletInfo,
-} from "@/lib/config";
+} from "@reown/appkit/react";
+import { useEffect } from "react";
 
-export function InfoList() {
-	const accountState = useAppKitAccount();
-	const networkState = useAppKitNetwork();
-	const themeState = useAppKitTheme();
-	const appKitState = useAppKitState();
-	const eventsState = useAppKitEvents();
-	const walletState = useWalletInfo();
+export const InfoList = () => {
+	const kitTheme = useAppKitTheme();
+	const state = useAppKitState();
+	const { address, caipAddress, isConnected, status } = useAppKitAccount();
+	const events = useAppKitEvents();
+	const walletInfo = useWalletInfo();
+
+	useEffect(() => {
+		console.log("Events: ", events);
+	}, [events]);
 
 	return (
-		<div className="code-container-wrapper">
-			<section className="code-container">
-				<h2 className="code-container-title">useAppKitAccount()</h2>
-				<div className="code-container-content">
-					<pre>{JSON.stringify(accountState, null, 2)}</pre>
-				</div>
+		<div>
+			<section>
+				<h2>useAppKit</h2>
+				<pre>
+					Address: {address}
+					<br />
+					caip Address: {caipAddress}
+					<br />
+					Connected: {isConnected.toString()}
+					<br />
+					Status: {status}
+					<br />
+				</pre>
 			</section>
 
-			<section className="code-container">
-				<h2 className="code-container-title">useAppKitNetwork()</h2>
-				<div className="code-container-content">
-					<pre>{JSON.stringify(networkState, null, 2)}</pre>
-				</div>
+			<section>
+				<h2>Theme</h2>
+				<pre>
+					Theme: {kitTheme.themeMode}
+					<br />
+				</pre>
 			</section>
 
-			<section className="code-container">
-				<h2 className="code-container-title">useAppKitTheme()</h2>
-				<div className="code-container-content">
-					<pre>{JSON.stringify(themeState, null, 2)}</pre>
-				</div>
+			<section>
+				<h2>State</h2>
+				<pre>
+					activeChain: {state.activeChain}
+					<br />
+					loading: {state.loading.toString()}
+					<br />
+					open: {state.open.toString()}
+					<br />
+				</pre>
 			</section>
 
-			<section className="code-container">
-				<h2 className="code-container-title">useAppKitState()</h2>
-				<div className="code-container-content">
-					<pre>{JSON.stringify(appKitState, null, 2)}</pre>
-				</div>
-			</section>
-
-			<section className="code-container">
-				<h2 className="code-container-title">useAppKitEvents()</h2>
-				<div className="code-container-content">
-					<pre>{JSON.stringify(eventsState, null, 2)}</pre>
-				</div>
-			</section>
-
-			<section className="code-container">
-				<h2 className="code-container-title">useWalletInfo()</h2>
-				<div className="code-container-content">
-					<pre>{JSON.stringify(walletState, null, 2)}</pre>
-				</div>
+			<section>
+				<h2>WalletInfo</h2>
+				<pre>
+					Name: {walletInfo.walletInfo?.name?.toString()}
+					<br />
+				</pre>
 			</section>
 		</div>
 	);
-}
+};
