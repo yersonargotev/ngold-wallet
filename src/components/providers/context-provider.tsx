@@ -10,6 +10,8 @@ import { createAppKit } from "@reown/appkit/react";
 
 import { ethersAdapter, networks, projectId } from "@/lib/config";
 
+import { url } from "@/lib/constants/env";
+
 // Set up queryClient
 const queryClient = new QueryClient();
 
@@ -21,8 +23,8 @@ if (!projectId) {
 export const appKitMetadata = {
 	name: "NGOLD Wallet",
 	description: "NGOLD Wallet",
-	url: "https://wallet-ngold.vercel.app/",
-	icons: [""],
+	url: url,
+	icons: ["/logo.webp"],
 };
 
 // Create the modal
@@ -43,7 +45,7 @@ function ContextProvider({ children }: { children: ReactNode }) {
 		<QueryClientProvider client={queryClient}>
 			<ThemeProvider
 				attribute="class"
-				defaultTheme="light"
+				defaultTheme="system"
 				enableSystem={false}
 			>
 				{children}

@@ -1,4 +1,4 @@
-import ContextProvider from "@/context";
+import ContextProvider from "@/components/providers/context-provider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -21,11 +21,11 @@ export const metadata: Metadata = {
 	icons: {
 		icon: [
 			{
-				url: "/favicon-dark.png",
+				url: "/logo-ngold-black.png",
 				media: "(prefers-color-scheme: light)",
 			},
 			{
-				url: "/favicon.png",
+				url: "/logo-ngold-white.png",
 				media: "(prefers-color-scheme: dark)",
 			},
 		],
