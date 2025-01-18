@@ -2,7 +2,7 @@
 
 import { useTheme } from "next-themes";
 
-import { mainnet } from "@reown/appkit/networks";
+import { polygon } from "@reown/appkit/networks";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -24,7 +24,7 @@ export function ActionButtonList() {
 	}
 
 	function switchToNetwork() {
-		switchNetwork(mainnet);
+		switchNetwork(polygon);
 	}
 
 	async function handleDisconnect() {
