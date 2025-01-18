@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useAppKit } from "@reown/appkit/react";
 
-export default function ConnectButton() {
+export function ConnectButton() {
 	const { open } = useAppKit();
 
 	return (
