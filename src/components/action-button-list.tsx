@@ -11,6 +11,7 @@ import {
 	useAppKitTheme,
 	useDisconnect,
 } from "@/lib/config";
+import { ConnectButton } from "./connect-button";
 
 export function ActionButtonList() {
 	const modal = useAppKit();
@@ -43,6 +44,7 @@ export function ActionButtonList() {
 
 	return (
 		<div className="action-button-list">
+			<ConnectButton />
 			<Button onClick={openAppKit}>Open</Button>
 			<Button onClick={handleDisconnect}>Disconnect</Button>
 			<Button onClick={switchToNetwork}>Switch to Ethereum</Button>
