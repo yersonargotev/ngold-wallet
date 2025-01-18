@@ -35,7 +35,7 @@ export const modal = createAppKit({
 	metadata: appKitMetadata,
 	themeMode: "light",
 	features: {
-		analytics: true, // Optional - defaults to your Cloud configuration
+		analytics: false, // Optional - defaults to your Cloud configuration
 	},
 });
 
