@@ -2,8 +2,8 @@
 
 import { useAccount } from "wagmi";
 
+import { Button } from "@/components/ui/button";
 import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
-import { Button } from "./ui/button";
 
 const compactHash = (hash: string) => {
 	return `${hash.slice(0, 7)}...${hash.slice(-5)}`;
@@ -24,6 +24,8 @@ export const ConnectButton = () => {
 			<span className="text-black">
 				useAccount (wagmi): {compactAddressWagmi}
 			</span>
+			{/* @ts-expect-error appkit-button is a web component that TypeScript doesn't recognize */}
+			<appkit-button />
 			<Button onClick={() => open()}>Open Connect Modal</Button>
 		</div>
 	);
