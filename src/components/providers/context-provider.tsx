@@ -34,7 +34,7 @@ export const modal = createAppKit({
 	networks,
 	defaultNetwork: polygon,
 	metadata: appKitMetadata,
-	themeMode: "light",
+	themeMode: "dark",
 	features: {
 		analytics: false, // Optional - defaults to your Cloud configuration
 	},
@@ -43,11 +43,7 @@ export const modal = createAppKit({
 function ContextProvider({ children }: { children: ReactNode }) {
 	return (
 		<QueryClientProvider client={queryClient}>
-			<ThemeProvider
-				attribute="class"
-				defaultTheme="system"
-				enableSystem={false}
-			>
+			<ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark">
 				{children}
 			</ThemeProvider>
 		</QueryClientProvider>

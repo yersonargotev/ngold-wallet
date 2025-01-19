@@ -1,4 +1,5 @@
 import ContextProvider from "@/components/providers/context-provider";
+import { Header } from "@/components/shared/header";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -42,7 +43,10 @@ export default async function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<ContextProvider>{children}</ContextProvider>
+				<ContextProvider>
+					<Header />
+					<main className="container max-w-screen-2xl mx-auto">{children}</main>
+				</ContextProvider>
 			</body>
 		</html>
 	);
