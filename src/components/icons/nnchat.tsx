@@ -7,9 +7,9 @@ const NNChat = ({
 	<svg
 		version="1.1"
 		viewBox="0 0 1792 1744"
-		stroke-width="0.1"
-		stroke-linecap="round"
-		stroke-linejoin="round"
+		strokeWidth="0.1"
+		strokeLinecap="round"
+		strokeLinejoin="round"
 		xmlns="http://www.w3.org/2000/svg"
 		className={className}
 		{...props}

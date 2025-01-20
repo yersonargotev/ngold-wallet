@@ -5,6 +5,9 @@ const processEnv = {
 	NEXT_PUBLIC_PROJECT_ID: process.env.NEXT_PUBLIC_PROJECT_ID,
 	NODE_ENV: process.env.NODE_ENV,
 	NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
+	NEXT_PUBLIC_USDT_ADDRESS: process.env.NEXT_PUBLIC_USDT_ADDRESS,
+	NEXT_PUBLIC_NGOLD_ADDRESS: process.env.NEXT_PUBLIC_NGOLD_ADDRESS,
+	NEXT_PUBLIC_GOLD_ADDRESS: process.env.NEXT_PUBLIC_GOLD_ADDRESS,
 } as const; // usando 'as const' para mayor seguridad de tipos
 
 // Define el esquema de validación
@@ -18,6 +21,15 @@ const envSchema = z.object({
 		.enum(["development", "production", "test"])
 		.default("development"),
 	NEXT_PUBLIC_URL: z.string().url("NEXT_PUBLIC_URL must be a valid URL"),
+	NEXT_PUBLIC_USDT_ADDRESS: z
+		.string()
+		.min(1, { message: "USDT address is required" }),
+	NEXT_PUBLIC_NGOLD_ADDRESS: z
+		.string()
+		.min(1, { message: "NGOLD address is required" }),
+	NEXT_PUBLIC_GOLD_ADDRESS: z
+		.string()
+		.min(1, { message: "GOLD address is required" }),
 });
 
 // Tipo inferido del esquema
@@ -50,5 +62,10 @@ const validatedEnv = Object.freeze(env);
 export default validatedEnv;
 
 // También podemos exportar variables individuales si lo preferimos
-export const { NEXT_PUBLIC_PROJECT_ID: projectId, NEXT_PUBLIC_URL: url } =
-	validatedEnv;
+export const {
+	NEXT_PUBLIC_PROJECT_ID: projectId,
+	NEXT_PUBLIC_URL: url,
+	NEXT_PUBLIC_USDT_ADDRESS: usdtAddress,
+	NEXT_PUBLIC_NGOLD_ADDRESS: ngoldAddress,
+	NEXT_PUBLIC_GOLD_ADDRESS: goldAddress,
+} = validatedEnv;
