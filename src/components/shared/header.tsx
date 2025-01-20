@@ -3,6 +3,7 @@
 import { DisconnectWallet } from "@/components/shared/disconnect-wallet";
 import { useAppKitAccount } from "@reown/appkit/react";
 import Image from "next/image";
+import Link from "next/link";
 
 export function Header() {
 	const { isConnected } = useAppKitAccount();
@@ -12,14 +13,16 @@ export function Header() {
 			<div className="container max-w-screen-2xl mx-auto">
 				<div className="flex items-center justify-between h-14 text-sm w-full px-4">
 					<div className="flex items-center gap-2">
-						<Image
-							src="/images/logo-ngold-white.png"
-							alt="NGOLD Logo"
-							width={40}
-							height={40}
-							className="h-6 w-6"
-						/>
-						<h3 className="text-lg font-bold">NGOLD Wallet</h3>
+						<Link className="flex items-center gap-2" href="/">
+							<Image
+								src="/images/logo-ngold-white.png"
+								alt="NGOLD Logo"
+								width={40}
+								height={40}
+								className="h-6 w-6"
+							/>
+							<h3 className="text-lg font-bold">NGOLD Wallet</h3>
+						</Link>
 					</div>
 					{isConnected === true && <DisconnectWallet />}
 				</div>
