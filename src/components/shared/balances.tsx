@@ -49,7 +49,7 @@ export function Balances() {
 		// <button type="button" onClick={getBalance}>
 		// 	Get User Balance
 		// </button>
-		<div className="flex flex-row gap-2 md:gap-6 w-full items-center justify-center p-2">
+		<div className="flex flex-row gap-2 md:gap-6 w-full items-center justify-center p-2 min-w-sm">
 			<Card className="p-4 max-w-sm border-0 bg-muted w-full">
 				<div className="flex flex-col items-center gap-2">
 					<h3> NGOLD Balance</h3>
