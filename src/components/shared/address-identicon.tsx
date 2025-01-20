@@ -7,6 +7,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+
+// @ts-expect-error - jazzicon package lacks proper TypeScript typings
 import * as jazzicon from "@metamask/jazzicon";
 import makeBlockie from "ethereum-blockies-base64";
 import Image from "next/image";
