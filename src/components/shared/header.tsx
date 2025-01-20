@@ -21,7 +21,7 @@ export function Header() {
 								height={40}
 								className="h-6 w-6"
 							/>
-							<h3 className="text-lg font-bold">NGOLD Wallet</h3>
+							<h3 className="text-lg font-bold">Wallet</h3>
 						</Link>
 					</div>
 					{isConnected === true && <DisconnectWallet />}
