@@ -11,6 +11,7 @@ export function DisconnectWallet() {
 			<Button
 				onClick={() => disconnect()}
 				className="w-full max-w-md font-bold"
+				variant="outline"
 			>
 				Disconnect
 			</Button>
