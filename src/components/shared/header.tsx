@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export function Header() {
 	const { isConnected } = useAppKitAccount();
-	console.log("Is connected: ", isConnected);
+
 	return (
 		<div className="w-full z-10">
 			<div className="container max-w-screen-2xl mx-auto">
