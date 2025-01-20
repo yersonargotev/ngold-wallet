@@ -112,23 +112,27 @@ export function Tokens() {
 
 	if (!isConnected) {
 		return (
-			<Alert className="max-w-md">
-				<AlertCircle className="h-4 w-4" />
-				<AlertDescription>
-					Please connect your wallet to view tokens
-				</AlertDescription>
-			</Alert>
+			<div className="flex items-center justify-center">
+				<Alert className="max-w-md">
+					<AlertCircle className="h-4 w-4" />
+					<AlertDescription>
+						Please connect your wallet to view tokens
+					</AlertDescription>
+				</Alert>
+			</div>
 		);
 	}
 
 	if (error) {
 		return (
-			<Alert variant="destructive" className="max-w-md">
-				<AlertCircle className="h-4 w-4" />
-				<AlertDescription>
-					Error fetching token data. Please try again.
-				</AlertDescription>
-			</Alert>
+			<div className="flex items-center justify-center">
+				<Alert variant="destructive" className="max-w-md">
+					<AlertCircle className="h-4 w-4" />
+					<AlertDescription>
+						Error fetching token data. Please try again.
+					</AlertDescription>
+				</Alert>
+			</div>
 		);
 	}
 
