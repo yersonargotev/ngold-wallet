@@ -12,31 +12,37 @@ const actionItems = [
 		href: urls.send,
 		icon: <ArrowUp className="h-5 w-5" />,
 		label: "Send",
+		newTab: false,
 	},
 	{
 		href: urls.receive,
 		icon: <ArrowDown className="h-5 w-5" />,
 		label: "Receive",
+		newTab: false,
 	},
 	{
 		href: urls.p2p,
 		icon: <Ngold className="h-5 w-5" />,
 		label: "Buy",
+		newTab: true,
 	},
 	{
 		href: urls.orders,
 		icon: <span className="font-medium text-sm">P2P</span>,
 		label: "Orders",
+		newTab: true,
 	},
 	{
 		href: urls.rewards,
 		icon: <Gift className="h-5 w-5" />,
 		label: "Rewards",
+		newTab: true,
 	},
 	{
 		href: urls.staking,
 		icon: <MoveUpRight className="h-5 w-5" />,
 		label: "Staking",
+		newTab: true,
 	},
 ];
 
@@ -57,7 +63,7 @@ export function ActionButtons() {
 					>
 						<Link
 							href={item.href}
-							target="_blank"
+							target={item.newTab ? "_blank" : "_self"}
 							rel="noreferrer noopener"
 							className="transition-transform hover:scale-105"
 						>
