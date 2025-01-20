@@ -1,35 +1,33 @@
+import { useWalletProvider } from "@/hooks/use-wallet-provider";
 import GOLDABI from "@/lib/abis/GOLD.json";
 import { goldAddress } from "@/lib/constants/env";
-import { DECIMALS, chain } from "@/lib/constants/magic";
-import { useAppKitAccount, useAppKitProvider } from "@reown/appkit/react";
+import { DECIMALS } from "@/lib/constants/magic";
+import { useAppKitAccount } from "@reown/appkit/react";
 import { useQuery } from "@tanstack/react-query";
-import {
-	BrowserProvider,
-	Contract,
-	type Eip1193Provider,
-	formatUnits,
-} from "ethers";
+import { Contract, formatUnits } from "ethers";
 
 export const useGoldPrice = () => {
 	const { address, isConnected } = useAppKitAccount();
-	const { walletProvider } = useAppKitProvider(chain);
+	const { getProvider, isReady } = useWalletProvider();
 
 	return useQuery({
 		queryKey: ["gold-price", address],
 		queryFn: async (): Promise<string> => {
-			if (!isConnected) throw new Error("Wallet not connected");
+			try {
+				const { signer } = await getProvider();
+				const GOLDContract = new Contract(goldAddress, GOLDABI, signer);
 
-			const ethersProvider = new BrowserProvider(
-				walletProvider as Eip1193Provider,
-			);
-			const signer = await ethersProvider.getSigner();
-			const GOLDContract = new Contract(goldAddress, GOLDABI, signer);
-
-			const price = await GOLDContract.getGramGoldPrice(address);
-			return formatUnits(price, DECIMALS.GOLD);
+				const price = await GOLDContract.getGramGoldPrice(address);
+				return formatUnits(price, DECIMALS.GOLD);
+			} catch (error) {
+				console.error("Error fetching gold price:", error);
+				throw new Error("Failed to fetch gold price. Please try again.");
+			}
 		},
-		enabled: isConnected,
-		refetchInterval: 5000, // Actualizar cada 5 segundos
+		enabled: isConnected && isReady,
+		retry: 2,
+		retryDelay: 1000,
+		refetchInterval: 5000,
 		staleTime: 2000,
 	});
 };
