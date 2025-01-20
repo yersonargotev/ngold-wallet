@@ -1,5 +1,6 @@
 "use client";
 
+import { Card } from "@/components/ui/card";
 import {
 	useAppKitAccount,
 	useAppKitProvider,
@@ -11,7 +12,6 @@ import {
 	Eip1193Provider,
 	formatUnits,
 } from "ethers";
-import { Card } from "../ui/card";
 
 const USDTAddress = "0x617f3112bf5397D0467D315cC709EF968D9ba546";
 

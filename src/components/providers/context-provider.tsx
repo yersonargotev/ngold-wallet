@@ -11,6 +11,7 @@ import { createAppKit } from "@reown/appkit/react";
 import { ethersAdapter, networks, projectId } from "@/lib/config";
 
 import { url } from "@/lib/constants/env";
+import { Toaster } from "sonner";
 
 // Set up queryClient
 const queryClient = new QueryClient();
@@ -49,6 +50,7 @@ function ContextProvider({ children }: { children: ReactNode }) {
 			<ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark">
 				{children}
 			</ThemeProvider>
+			<Toaster position="top-center" richColors />
 		</QueryClientProvider>
 	);
 }
