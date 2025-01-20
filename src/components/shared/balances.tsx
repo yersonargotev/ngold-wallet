@@ -1,67 +1,128 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
-import {
-	useAppKitAccount,
-	useAppKitProvider,
-	useAppKitState,
-} from "@reown/appkit/react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import NGOLDABI from "@/lib/abis/NGOLD.json";
+import USDTABI from "@/lib/abis/USDT.json";
+import { DECIMALS, chain } from "@/lib/constants/magic";
+import { useAppKitAccount, useAppKitProvider } from "@reown/appkit/react";
+import { useQuery } from "@tanstack/react-query";
 import {
 	BrowserProvider,
 	Contract,
 	Eip1193Provider,
 	formatUnits,
 } from "ethers";
+import { AlertCircle } from "lucide-react";
 
-const USDTAddress = "0x617f3112bf5397D0467D315cC709EF968D9ba546";
+const USDTAddress = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F";
+const NGOLDAddress = "0xe87fE0aaE8815B4B7cD026FeE1B1072c766E09F5";
 
-// The ERC-20 Contract ABI, which is a common contract interface
-// for tokens (this is the Human-Readable ABI format)
-const USDTAbi = [
-	"function name() view returns (string)",
-	"function symbol() view returns (string)",
-	"function balanceOf(address) view returns (uint)",
-	"function transfer(address to, uint amount)",
-	"event Transfer(address indexed from, address indexed to, uint amount)",
-];
+interface TokenBalance {
+	ngold: string;
+	usdt: string;
+}
 
 export function Balances() {
-	const { activeChain } = useAppKitState();
-	const { address, caipAddress, isConnected } = useAppKitAccount();
+	const { address, isConnected } = useAppKitAccount();
+	const { walletProvider } = useAppKitProvider(chain);
 
-	const { walletProvider } = useAppKitProvider(activeChain);
-
-	async function getBalance() {
-		if (!isConnected) throw Error("User disconnected");
+	const fetchBalances = async (): Promise<TokenBalance> => {
+		if (!isConnected) throw new Error("Wallet not connected");
 
 		const ethersProvider = new BrowserProvider(
 			walletProvider as Eip1193Provider,
 		);
 		const signer = await ethersProvider.getSigner();
-		// The Contract object
-		const USDTContract = new Contract(USDTAddress, USDTAbi, signer);
-		const USDTBalance = await USDTContract.balanceOf(address);
 
-		console.log(formatUnits(USDTBalance, 18));
+		const USDTContract = new Contract(USDTAddress, USDTABI, signer);
+		const NGOLDContract = new Contract(NGOLDAddress, NGOLDABI, signer);
+
+		const [USDTBalance, NGOLDBalance] = await Promise.all([
+			USDTContract.balanceOf(address),
+			NGOLDContract.balanceOf(address),
+		]);
+
+		return {
+			usdt: formatUnits(USDTBalance, DECIMALS.USDT),
+			ngold: formatUnits(NGOLDBalance, DECIMALS.NGOLD),
+		};
+	};
+
+	const { data, isLoading, error } = useQuery({
+		queryKey: ["balances", address],
+		queryFn: fetchBalances,
+		enabled: isConnected,
+		refetchInterval: 30000, // Refetch every 30 seconds
+		staleTime: 10000, // Consider data stale after 10 seconds
+	});
+
+	if (!isConnected) {
+		return (
+			<Alert className="max-w-md mx-auto">
+				<AlertCircle className="h-4 w-4" />
+				<AlertDescription>
+					Please connect your wallet to view balances
+				</AlertDescription>
+			</Alert>
+		);
+	}
+
+	if (error) {
+		return (
+			<Alert variant="destructive" className="max-w-md mx-auto">
+				<AlertCircle className="h-4 w-4" />
+				<AlertDescription>
+					Error fetching balances. Please try again.
+				</AlertDescription>
+			</Alert>
+		);
 	}
 
 	return (
-		// <button type="button" onClick={getBalance}>
-		// 	Get User Balance
-		// </button>
-		<div className="flex flex-row gap-2 md:gap-6 w-full items-center justify-center p-2 max-w-sm">
-			<Card className="p-4 max-w-sm border-0 bg-muted w-full">
-				<div className="flex flex-col items-center gap-2">
-					<h3> NGOLD Balance</h3>
-					<p className="text-sm text-center">5 NGOLD</p>
-				</div>
+		<div className="grid grid-cols-2 gap-4 p-4 max-w-2xl mx-auto">
+			<Card className="bg-muted/50 hover:bg-muted/70 transition-colors">
+				<CardHeader className="space-y-1">
+					<CardTitle className="flex items-center gap-2">
+						NGOLD Balance
+					</CardTitle>
+				</CardHeader>
+				<CardContent>
+					{isLoading ? (
+						<Skeleton className="h-6 w-24" />
+					) : (
+						<p className="text-2xl font-semibold">
+							{Number(data?.ngold).toLocaleString(undefined, {
+								maximumFractionDigits: 4,
+							})}{" "}
+							NGOLD
+						</p>
+					)}
+				</CardContent>
 			</Card>
-			<Card className="p-4 max-w-sm border-0 bg-muted w-full">
-				<div className="flex flex-col items-center gap-2">
-					<h3> USDT Balance</h3>
-					<p className="text-sm text-center">5 USDT</p>
-				</div>
+
+			<Card className="bg-muted/50 hover:bg-muted/70 transition-colors">
+				<CardHeader className="space-y-1">
+					<CardTitle className="flex items-center gap-2">
+						USDT Balance
+					</CardTitle>
+				</CardHeader>
+				<CardContent>
+					{isLoading ? (
+						<Skeleton className="h-6 w-24" />
+					) : (
+						<p className="text-2xl font-semibold">
+							{Number(data?.usdt).toLocaleString(undefined, {
+								maximumFractionDigits: 2,
+							})}{" "}
+							USDT
+						</p>
+					)}
+				</CardContent>
 			</Card>
 		</div>
 	);
 }
+
+export default Balances;
