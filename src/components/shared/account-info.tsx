@@ -1,10 +1,10 @@
 "use client";
 
 import AddressIdenticon from "@/components/shared/address-identicon";
-import { Balances } from "@/components/shared/balances";
 import { Button } from "@/components/ui/button";
 import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
 import { useState } from "react";
+import Balances from "./balances";
 
 function shortenAddress(address: string) {
 	return `${address.slice(0, 6)}...${address.slice(-4)}`;

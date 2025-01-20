@@ -5,19 +5,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import NGOLDABI from "@/lib/abis/NGOLD.json";
 import USDTABI from "@/lib/abis/USDT.json";
+import { ngoldAddress, usdtAddress } from "@/lib/constants/env";
 import { DECIMALS, chain } from "@/lib/constants/magic";
 import { useAppKitAccount, useAppKitProvider } from "@reown/appkit/react";
 import { useQuery } from "@tanstack/react-query";
 import {
 	BrowserProvider,
 	Contract,
-	Eip1193Provider,
+	type Eip1193Provider,
 	formatUnits,
 } from "ethers";
 import { AlertCircle } from "lucide-react";
-
-const USDTAddress = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F";
-const NGOLDAddress = "0xe87fE0aaE8815B4B7cD026FeE1B1072c766E09F5";
 
 interface TokenBalance {
 	ngold: string;
@@ -36,8 +34,8 @@ export function Balances() {
 		);
 		const signer = await ethersProvider.getSigner();
 
-		const USDTContract = new Contract(USDTAddress, USDTABI, signer);
-		const NGOLDContract = new Contract(NGOLDAddress, NGOLDABI, signer);
+		const USDTContract = new Contract(usdtAddress, USDTABI, signer);
+		const NGOLDContract = new Contract(ngoldAddress, NGOLDABI, signer);
 
 		const [USDTBalance, NGOLDBalance] = await Promise.all([
 			USDTContract.balanceOf(address),
