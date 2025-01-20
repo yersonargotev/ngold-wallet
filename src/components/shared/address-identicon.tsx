@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/select";
 import * as jazzicon from "@metamask/jazzicon";
 import makeBlockie from "ethereum-blockies-base64";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 interface AddressIdenticonProps {
@@ -71,7 +72,7 @@ const AddressIdenticon = ({
 						}}
 					/>
 				) : (
-					<img
+					<Image
 						src={makeBlockie(address)}
 						alt="Blockie"
 						style={{
