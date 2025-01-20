@@ -1,4 +1,5 @@
 import Telegram from "@/components/icons/telegram";
+import { ActionButtons } from "@/components/index/action-buttons";
 import { Wellcome } from "@/components/index/welcome";
 import { InfoList } from "@/components/info-list";
 import { AccountInfo } from "@/components/shared/account-info";
@@ -9,6 +10,7 @@ export default function Home() {
 	return (
 		<div className="flex flex-col gap-4">
 			<AccountInfo />
+			<ActionButtons />
 			<Wellcome />
 			<div className="flex flex-col gap-2 items-center justify-center">
 				<h3 className="text-lg font-bold text-muted-foreground">Need Help?</h3>
