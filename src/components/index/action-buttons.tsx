@@ -7,61 +7,73 @@ import { useAppKitAccount } from "@reown/appkit/react";
 import { ArrowDown, ArrowUp, Gift, MoveUpRight } from "lucide-react";
 import Link from "next/link";
 
+const actionItems = [
+	{
+		href: urls.send,
+		icon: <ArrowUp className="h-5 w-5" />,
+		label: "Send",
+	},
+	{
+		href: urls.receive,
+		icon: <ArrowDown className="h-5 w-5" />,
+		label: "Receive",
+	},
+	{
+		href: urls.p2p,
+		icon: <Ngold className="h-5 w-5" />,
+		label: "Buy",
+	},
+	{
+		href: urls.orders,
+		icon: <span className="font-medium text-sm">P2P</span>,
+		label: "Orders",
+	},
+	{
+		href: urls.rewards,
+		icon: <Gift className="h-5 w-5" />,
+		label: "Rewards",
+	},
+	{
+		href: urls.staking,
+		icon: <MoveUpRight className="h-5 w-5" />,
+		label: "Staking",
+	},
+];
+
 export function ActionButtons() {
 	const { isConnected } = useAppKitAccount();
+
 	if (!isConnected) {
 		return null;
 	}
 
 	return (
-		<div className="flex flex-row gap-2 items-center justify-center">
-			<div className="flex flex-col gap-2 items-center justify-center">
-				<Link href={urls.send} target="_blank" rel="noreferrer noopener">
-					<Button variant="secondary" className="rounded-full">
-						<ArrowUp />
-					</Button>
-				</Link>
-				<span className="text-muted-foreground">Send</span>
-			</div>
-			<div className="flex flex-col gap-2 items-center justify-center">
-				<Link href={urls.receive} target="_blank" rel="noreferrer noopener">
-					<Button variant="secondary" className="rounded-full">
-						<ArrowDown />
-					</Button>
-				</Link>
-				<span className="text-muted-foreground">Receive</span>
-			</div>
-			<div className="flex flex-col gap-2 items-center justify-center">
-				<Link href={urls.p2p} target="_blank" rel="noreferrer noopener">
-					<Button variant="secondary" className="rounded-full">
-						<Ngold />
-					</Button>
-				</Link>
-				<span className="text-muted-foreground">Buy</span>
-			</div>
-			<div className="flex flex-col gap-2 items-center justify-center">
-				<Link href={urls.orders} target="_blank" rel="noreferrer noopener">
-					<Button variant="secondary" className="rounded-full">
-						<span className="font-medium">P2P</span>
-					</Button>
-				</Link>
-				<span className="text-muted-foreground">Orders</span>
-			</div>
-			<div className="flex flex-col gap-2 items-center justify-center">
-				<Link href={urls.rewards} target="_blank" rel="noreferrer noopener">
-					<Button variant="secondary" className="rounded-full">
-						<Gift />
-					</Button>
-				</Link>
-				<span className="text-muted-foreground">Orders</span>
-			</div>
-			<div className="flex flex-col gap-2 items-center justify-center">
-				<Link href={urls.staking} target="_blank" rel="noreferrer noopener">
-					<Button variant="secondary" className="rounded-full">
-						<MoveUpRight />
-					</Button>
-				</Link>
-				<span className="text-muted-foreground">Staking</span>
+		<div className="w-full overflow-x-auto px-4 py-2">
+			<div className="flex flex-row gap-4 items-center justify-start min-w-max md:justify-center">
+				{actionItems.map((item) => (
+					<div
+						key={item.label}
+						className="flex flex-col gap-2 items-center justify-center"
+					>
+						<Link
+							href={item.href}
+							target="_blank"
+							rel="noreferrer noopener"
+							className="transition-transform hover:scale-105"
+						>
+							<Button
+								variant="secondary"
+								size="icon"
+								className="h-12 w-12 rounded-full shadow-sm hover:shadow-md transition-shadow"
+							>
+								{item.icon}
+							</Button>
+						</Link>
+						<span className="text-sm text-muted-foreground font-medium">
+							{item.label}
+						</span>
+					</div>
+				))}
 			</div>
 		</div>
 	);
