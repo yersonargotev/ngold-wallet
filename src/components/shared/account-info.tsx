@@ -34,7 +34,13 @@ export function AccountInfo() {
 				</span>
 			</button>
 			{copied && <span className="text-muted-foreground">Copied!</span>}
-			<Button onClick={() => open({ view: "Account" })}>Account Info</Button>
+			<Button
+				className="font-bold"
+				variant="secondary"
+				onClick={() => open({ view: "Account" })}
+			>
+				Account
+			</Button>
 			<Balances />
 		</div>
 	);
