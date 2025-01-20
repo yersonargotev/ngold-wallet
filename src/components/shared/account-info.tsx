@@ -1,9 +1,10 @@
 "use client";
 
 import AddressIdenticon from "@/components/shared/address-identicon";
-import { useAppKitAccount } from "@reown/appkit/react";
+import { Balances } from "@/components/shared/balances";
+import { Button } from "@/components/ui/button";
+import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
 import { useState } from "react";
-import { Balances } from "./balances";
 
 function shortenAddress(address: string) {
 	return `${address.slice(0, 6)}...${address.slice(-4)}`;
@@ -12,6 +13,7 @@ function shortenAddress(address: string) {
 export function AccountInfo() {
 	const [copied, setCopied] = useState(false);
 	const { address } = useAppKitAccount();
+	const { open } = useAppKit();
 
 	if (!address) {
 		return null;
@@ -32,6 +34,7 @@ export function AccountInfo() {
 				</span>
 			</button>
 			{copied && <span className="text-muted-foreground">Copied!</span>}
+			<Button onClick={() => open({ view: "Account" })}>Account Info</Button>
 			<Balances />
 		</div>
 	);
