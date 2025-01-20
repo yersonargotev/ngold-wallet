@@ -53,6 +53,7 @@ export const InfoList = () => {
 					<br />
 					open: {state.open.toString()}
 					<br />
+					{JSON.stringify(state, null, 2)}
 				</pre>
 			</section>
 
@@ -61,6 +62,7 @@ export const InfoList = () => {
 				<pre>
 					Name: {walletInfo.walletInfo?.name?.toString()}
 					<br />
+					{JSON.stringify(walletInfo, null, 2)}
 				</pre>
 			</section>
 		</div>
