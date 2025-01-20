@@ -8,11 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useGoldPrice } from "@/hooks/use-gold-price";
 import { useTokenBalances } from "@/hooks/use-token-balances";
+import { useWalletProvider } from "@/hooks/use-wallet-provider";
 import { useAppKitAccount } from "@reown/appkit/react";
 import { AlertCircle, RefreshCw } from "lucide-react";
 
 export function Tokens() {
 	const { isConnected } = useAppKitAccount();
+	const { error: providerError, resetError } = useWalletProvider();
 
 	const {
 		data: balances,
@@ -22,9 +24,19 @@ export function Tokens() {
 		isRefetching: isRefetchingBalances,
 	} = useTokenBalances();
 
-	const { data: goldPrice, isLoading: isLoadingPrice } = useGoldPrice();
+	const {
+		data: goldPrice,
+		isLoading: isLoadingPrice,
+		error: priceError,
+	} = useGoldPrice();
 
 	const isLoading = isLoadingBalances || isLoadingPrice;
+	const error = providerError || balancesError || priceError;
+
+	const handleRefetch = async () => {
+		resetError();
+		await refetchBalances();
+	};
 
 	if (!isConnected) {
 		return (
@@ -39,15 +51,24 @@ export function Tokens() {
 		);
 	}
 
-	if (balancesError) {
+	if (error) {
 		return (
-			<div className="flex items-center justify-center">
+			<div className="flex flex-col items-center justify-center gap-4">
 				<Alert variant="destructive" className="max-w-md">
 					<AlertCircle className="h-4 w-4" />
 					<AlertDescription>
-						Error fetching token data. Please try again.
+						{error instanceof Error
+							? error.message
+							: "Error fetching token data. Please try again."}
 					</AlertDescription>
 				</Alert>
+				<Button
+					variant="outline"
+					onClick={handleRefetch}
+					disabled={isRefetchingBalances}
+				>
+					Try Again
+				</Button>
 			</div>
 		);
 	}
