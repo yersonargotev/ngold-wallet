@@ -11,6 +11,8 @@ const rewards = "https://www.dex-p2p.ngold.io/rewards/";
 const send = "/send";
 const receive = "/receive";
 
+const etherScan = "https://api.etherscan.io/api";
+
 export const urls = {
 	napoleonChat,
 	telegram,
@@ -21,4 +23,5 @@ export const urls = {
 	rewards,
 	send,
 	receive,
+	etherScan,
 };

@@ -35,10 +35,6 @@ export const useTokenBalances = () => {
 					POLContract.balanceOf(address),
 				]);
 
-				console.log("USDTBalance: ", USDTBalance);
-				console.log("NGOLDBalance: ", NGOLDBalance);
-				console.log("POLBalance: ", POLBalance);
-
 				return {
 					usdt: formatUnits(USDTBalance, DECIMALS.USDT),
 					ngold: formatUnits(NGOLDBalance, DECIMALS.NGOLD),
