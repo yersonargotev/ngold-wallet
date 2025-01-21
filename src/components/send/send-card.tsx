@@ -15,6 +15,7 @@ import Decimal from "decimal.js";
 import { Contract, parseUnits } from "ethers";
 import { ArrowDownUp } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 // Configure Decimal.js for high precision
@@ -85,8 +86,7 @@ export function SendCard() {
 	};
 
 	async function onSubmit(values: SendFormValues) {
-		console.log(values);
-		// Aquí iría la lógica de envío
+		console.log("Values: ", values);
 		const { signer } = await getProvider();
 		const NGOLDContract = new Contract(ngoldAddress, NGOLDABI, signer);
 
@@ -97,8 +97,10 @@ export function SendCard() {
 			await tx.wait();
 
 			console.log("Transaction sent successfully");
+			toast.success("Transaction sent successfully");
 		} catch (error) {
 			console.error("Error sending transaction:", error);
+			toast.error("Error sending transaction");
 		}
 	}
 
