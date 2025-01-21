@@ -21,6 +21,7 @@ export const useTokenBalances = () => {
 	return useQuery({
 		queryKey: ["token-balances", address],
 		queryFn: async (): Promise<TokenBalances> => {
+			console.log("Fetching token balances...");
 			try {
 				const { signer } = await getProvider();
 
