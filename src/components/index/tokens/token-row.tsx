@@ -26,7 +26,10 @@ export const TokenRow = ({
 					<Skeleton className="h-4 w-16" />
 				) : (
 					<span className="text-sm text-muted-foreground">
-						${price ?? "0.00"}
+						$
+						{Number(price ?? 0).toLocaleString(undefined, {
+							maximumFractionDigits: 4,
+						})}
 					</span>
 				)}
 			</div>
