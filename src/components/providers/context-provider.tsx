@@ -10,8 +10,8 @@ import { createAppKit } from "@reown/appkit/react";
 
 import { ethersAdapter, networks, projectId } from "@/lib/config";
 
+import { Toaster } from "@/components/ui/sonner";
 import { url } from "@/lib/constants/env";
-import { Toaster } from "sonner";
 
 // Set up queryClient
 const queryClient = new QueryClient();
