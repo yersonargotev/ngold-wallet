@@ -5,6 +5,7 @@ interface TokenRowProps {
 	name: string;
 	price?: string;
 	balance?: string;
+	otherBalance?: string;
 	isLoading?: boolean;
 }
 
@@ -13,6 +14,7 @@ export const TokenRow = ({
 	name,
 	price,
 	balance,
+	otherBalance,
 	isLoading,
 }: TokenRowProps) => (
 	<div className="flex items-center justify-between p-4 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors">
@@ -39,7 +41,7 @@ export const TokenRow = ({
 				<>
 					<span className="font-medium">${balance ?? "0.00"}</span>
 					<span className="text-sm text-muted-foreground">
-						{Number(balance ?? 0).toLocaleString(undefined, {
+						{Number(otherBalance ?? 0).toLocaleString(undefined, {
 							maximumFractionDigits: 4,
 						})}{" "}
 						{name}
