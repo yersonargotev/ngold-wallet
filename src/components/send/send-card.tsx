@@ -6,11 +6,19 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useGoldPrice } from "@/hooks/use-gold-price";
 import { useWalletProvider } from "@/hooks/use-wallet-provider";
+import NGOLDABI from "@/lib/abis/NGOLD.json";
+import { ngoldAddress } from "@/lib/constants/env";
+import { DECIMALS } from "@/lib/constants/magic";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppKitAccount } from "@reown/appkit/react";
+import Decimal from "decimal.js";
+import { Contract, parseUnits } from "ethers";
 import { ArrowDownUp } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+// Configure Decimal.js for high precision
+Decimal.set({ precision: 30, rounding: Decimal.ROUND_DOWN });
 
 const sendFormSchema = z.object({
 	address: z.string().min(1, { message: "The address is required" }),
@@ -22,23 +30,10 @@ type SendFormValues = z.infer<typeof sendFormSchema>;
 
 export function SendCard() {
 	const { isConnected } = useAppKitAccount();
-
-	const { error: providerError, resetError } = useWalletProvider();
-
-	const {
-		data: goldPrice,
-		isLoading: isLoadingGoldPrice,
-		error: errorGoldPrice,
-		refetch: refetchGoldPrice,
-	} = useGoldPrice();
+	const { getProvider } = useWalletProvider();
+	const { data: goldPrice, isLoading: isLoadingGoldPrice } = useGoldPrice();
 
 	const isLoading = isLoadingGoldPrice;
-	const error = errorGoldPrice;
-
-	const handleRefetch = async () => {
-		resetError();
-		await refetchGoldPrice();
-	};
 
 	const form = useForm<SendFormValues>({
 		resolver: zodResolver(sendFormSchema),
@@ -49,9 +44,62 @@ export function SendCard() {
 		},
 	});
 
-	function onSubmit(values: SendFormValues) {
+	// Convert NGOLD amount to USD
+	const convertAmountToUsd = (amount: string): string => {
+		if (!amount || !goldPrice) return "";
+		try {
+			const amountDecimal = new Decimal(amount);
+			const priceDecimal = new Decimal(goldPrice);
+			return amountDecimal.times(priceDecimal).toFixed(2);
+		} catch (error) {
+			console.error("Error converting amount to USD:", error);
+			return "";
+		}
+	};
+
+	// Convert USD to NGOLD amount
+	const convertUsdToAmount = (usd: string): string => {
+		if (!usd || !goldPrice) return "";
+		try {
+			const usdDecimal = new Decimal(usd);
+			const priceDecimal = new Decimal(goldPrice);
+			return usdDecimal.dividedBy(priceDecimal).toFixed(6);
+		} catch (error) {
+			console.error("Error converting USD to amount:", error);
+			return "";
+		}
+	};
+
+	// Handle amount field change
+	const handleAmountChange = (amount: string) => {
+		form.setValue("amount", amount);
+		const usdValue = convertAmountToUsd(amount);
+		form.setValue("usd", usdValue);
+	};
+
+	// Handle USD field change
+	const handleUsdChange = (usd: string) => {
+		form.setValue("usd", usd);
+		const amountValue = convertUsdToAmount(usd);
+		form.setValue("amount", amountValue);
+	};
+
+	async function onSubmit(values: SendFormValues) {
 		console.log(values);
 		// Aquí iría la lógica de envío
+		const { signer } = await getProvider();
+		const NGOLDContract = new Contract(ngoldAddress, NGOLDABI, signer);
+
+		const amount = parseUnits(values.amount, DECIMALS.NGOLD);
+		console.log("Amount: ", amount);
+		try {
+			const tx = await NGOLDContract.transfer(values.address, amount);
+			await tx.wait();
+
+			console.log("Transaction sent successfully");
+		} catch (error) {
+			console.error("Error sending transaction:", error);
+		}
 	}
 
 	if (!isConnected) return null;
@@ -89,7 +137,12 @@ export function SendCard() {
 								render={({ field }) => (
 									<FormItem>
 										<FormControl>
-											<Input {...field} className="text-2xl" placeholder="2" />
+											<Input
+												{...field}
+												className="text-2xl"
+												placeholder="2"
+												onChange={(e) => handleAmountChange(e.target.value)}
+											/>
 										</FormControl>
 									</FormItem>
 								)}
@@ -113,6 +166,7 @@ export function SendCard() {
 												{...field}
 												className="text-2xl"
 												placeholder="$ 170.0"
+												onChange={(e) => handleUsdChange(e.target.value)}
 											/>
 										</FormControl>
 									</FormItem>
@@ -125,6 +179,7 @@ export function SendCard() {
 						<Button
 							type="submit"
 							className="w-full bg-[#cfb53c] hover:bg-[#cfb53c]/90 font-semibold text-xl text-foreground"
+							disabled={isLoading}
 						>
 							Send
 						</Button>
@@ -141,3 +196,5 @@ export function SendCard() {
 		</Card>
 	);
 }
+
+export default SendCard;
