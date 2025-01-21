@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useGoldPrice } from "@/hooks/use-gold-price";
 import { useTokenBalances } from "@/hooks/use-token-balances";
+import { useTokenPrices } from "@/hooks/use-token-prices";
 import { useWalletProvider } from "@/hooks/use-wallet-provider";
 import { useAppKitAccount } from "@reown/appkit/react";
 import { AlertCircle, RefreshCw } from "lucide-react";
@@ -31,8 +32,14 @@ export function Tokens() {
 		error: priceError,
 	} = useGoldPrice();
 
-	const isLoading = isLoadingBalances || isLoadingPrice;
-	const error = providerError || balancesError || priceError;
+	const {
+		data: prices,
+		isLoading: isLoadingPrices,
+		error: pricesError,
+	} = useTokenPrices();
+
+	const isLoading = isLoadingBalances || isLoadingPrice || isLoadingPrices;
+	const error = providerError || balancesError || priceError || pricesError;
 
 	const handleRefetch = async () => {
 		resetError();
@@ -104,15 +111,15 @@ export function Tokens() {
 					<TokenRow
 						icon={<Tether className="h-10 w-10" />}
 						name="USDT"
-						price="1.00"
+						price={prices?.usdt}
 						balance={balances?.usdt}
 						isLoading={isLoading}
 					/>
 
 					<TokenRow
 						icon={<Polygon className="h-10 w-10" />}
-						name="Polygon"
-						price="1.00"
+						name="POL"
+						price={prices?.pol}
 						balance={balances?.pol}
 						isLoading={isLoading}
 					/>

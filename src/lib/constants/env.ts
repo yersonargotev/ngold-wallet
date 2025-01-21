@@ -2,6 +2,7 @@ import { z } from "zod";
 
 // Primero, hacemos una única lectura de todas las variables que necesitamos
 const processEnv = {
+	NEXT_PUBLIC_ETHERSCAN_API_KEY: process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY,
 	NEXT_PUBLIC_PROJECT_ID: process.env.NEXT_PUBLIC_PROJECT_ID,
 	NODE_ENV: process.env.NODE_ENV,
 	NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
@@ -9,10 +10,15 @@ const processEnv = {
 	NEXT_PUBLIC_NGOLD_ADDRESS: process.env.NEXT_PUBLIC_NGOLD_ADDRESS,
 	NEXT_PUBLIC_GOLD_ADDRESS: process.env.NEXT_PUBLIC_GOLD_ADDRESS,
 	NEXT_PUBLIC_POLYGON_ADDRESS: process.env.NEXT_PUBLIC_POLYGON_ADDRESS,
+	NEXT_PUBLIC_POL_USD_ADDRESS: process.env.NEXT_PUBLIC_POL_USD_ADDRESS,
+	NEXT_PUBLIC_USDT_USD_ADDRESS: process.env.NEXT_PUBLIC_USDT_USD_ADDRESS,
 } as const; // usando 'as const' para mayor seguridad de tipos
 
 // Define el esquema de validación
 const envSchema = z.object({
+	NEXT_PUBLIC_ETHERSCAN_API_KEY: z
+		.string()
+		.min(1, { message: "Etherscan API key is required" }),
 	NEXT_PUBLIC_PROJECT_ID: z
 		.string({
 			required_error: "Project ID is required in environment variables",
@@ -34,6 +40,12 @@ const envSchema = z.object({
 	NEXT_PUBLIC_POLYGON_ADDRESS: z
 		.string()
 		.min(1, { message: "Polygon address is required" }),
+	NEXT_PUBLIC_POL_USD_ADDRESS: z
+		.string()
+		.min(1, { message: "POL/USD address is required" }),
+	NEXT_PUBLIC_USDT_USD_ADDRESS: z
+		.string()
+		.min(1, { message: "USDT/USD address is required" }),
 });
 
 // Tipo inferido del esquema
@@ -42,12 +54,17 @@ type Env = z.infer<typeof envSchema>;
 // Función para validar las variables de entorno
 function validateEnv(): Env {
 	try {
-		// Validamos usando el objeto que ya tenemos en memoria
+		console.log("Starting validation...");
 		const env = envSchema.parse(processEnv);
+		console.log("Validation successful");
 		return env;
 	} catch (error) {
+		console.error("Validation error:", error);
 		if (error instanceof z.ZodError) {
-			const errorMessages = error.issues.map((issue) => issue.message);
+			const errorMessages = error.issues.map((issue) => {
+				console.error("Issue:", issue);
+				return issue.message;
+			});
 			throw new Error(
 				`Invalid environment variables: ${errorMessages.join(", ")}`,
 			);
@@ -67,10 +84,13 @@ export default validatedEnv;
 
 // También podemos exportar variables individuales si lo preferimos
 export const {
+	NEXT_PUBLIC_ETHERSCAN_API_KEY: etherscanApiKey,
 	NEXT_PUBLIC_PROJECT_ID: projectId,
 	NEXT_PUBLIC_URL: url,
 	NEXT_PUBLIC_USDT_ADDRESS: usdtAddress,
 	NEXT_PUBLIC_NGOLD_ADDRESS: ngoldAddress,
 	NEXT_PUBLIC_GOLD_ADDRESS: goldAddress,
 	NEXT_PUBLIC_POLYGON_ADDRESS: polygonAddress,
+	NEXT_PUBLIC_POL_USD_ADDRESS: polUsdAddress,
+	NEXT_PUBLIC_USDT_USD_ADDRESS: usdtUsdAddress,
 } = validatedEnv;

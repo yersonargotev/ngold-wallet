@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useGoldPrice } from "@/hooks/use-gold-price";
+import { useWalletProvider } from "@/hooks/use-wallet-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppKitAccount } from "@reown/appkit/react";
 import { ArrowDownUp } from "lucide-react";
@@ -20,6 +22,23 @@ type SendFormValues = z.infer<typeof sendFormSchema>;
 
 export function SendCard() {
 	const { isConnected } = useAppKitAccount();
+
+	const { error: providerError, resetError } = useWalletProvider();
+
+	const {
+		data: goldPrice,
+		isLoading: isLoadingGoldPrice,
+		error: errorGoldPrice,
+		refetch: refetchGoldPrice,
+	} = useGoldPrice();
+
+	const isLoading = isLoadingGoldPrice;
+	const error = errorGoldPrice;
+
+	const handleRefetch = async () => {
+		resetError();
+		await refetchGoldPrice();
+	};
 
 	const form = useForm<SendFormValues>({
 		resolver: zodResolver(sendFormSchema),
@@ -70,11 +89,7 @@ export function SendCard() {
 								render={({ field }) => (
 									<FormItem>
 										<FormControl>
-											<Input
-												{...field}
-												className="border-0 text-2xl"
-												placeholder="2"
-											/>
+											<Input {...field} className="text-2xl" placeholder="2" />
 										</FormControl>
 									</FormItem>
 								)}
@@ -96,7 +111,7 @@ export function SendCard() {
 										<FormControl>
 											<Input
 												{...field}
-												className="border-0 text-2xl"
+												className="text-2xl"
 												placeholder="$ 170.0"
 											/>
 										</FormControl>
