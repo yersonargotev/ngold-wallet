@@ -118,7 +118,8 @@ export function Tokens() {
 						icon={<Ngold className="h-10 w-10 text-[#cfb53c]" />}
 						name="NGOLD"
 						price={goldPrice}
-						balance={bpNgold?.usdValue}
+						balance={balances?.ngold}
+						otherBalance={bpNgold?.formatted}
 						isLoading={isLoading}
 					/>
 
@@ -127,7 +128,7 @@ export function Tokens() {
 						name="USDT"
 						price={prices?.usdt}
 						balance={balances?.usdt}
-						otherBalance={bpUsdt?.usdValue}
+						otherBalance={bpUsdt?.formatted}
 						isLoading={isLoading}
 					/>
 
@@ -136,7 +137,7 @@ export function Tokens() {
 						name="POL"
 						price={prices?.pol}
 						balance={balances?.pol}
-						otherBalance={bpPol?.usdValue}
+						otherBalance={bpPol?.formatted}
 						isLoading={isLoading}
 					/>
 				</div>
