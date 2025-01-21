@@ -1,6 +1,7 @@
 "use client";
 
 import { Ngold } from "@/components/icons/ngold-letter";
+import Polygon from "@/components/icons/polygon";
 import Tether from "@/components/icons/tether";
 import { TokenRow } from "@/components/index/tokens/token-row";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -105,6 +106,14 @@ export function Tokens() {
 						name="USDT"
 						price="1.00"
 						balance={balances?.usdt}
+						isLoading={isLoading}
+					/>
+
+					<TokenRow
+						icon={<Polygon className="h-10 w-10" />}
+						name="Polygon"
+						price="1.00"
+						balance={balances?.pol}
 						isLoading={isLoading}
 					/>
 				</div>
