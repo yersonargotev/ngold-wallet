@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useGoldPrice } from "@/hooks/use-gold-price";
 import { useTokenBalances } from "@/hooks/use-token-balances";
 import { useTokenPrices } from "@/hooks/use-token-prices";
+import { useTokenPricesBalances } from "@/hooks/use-token-prices-balances";
 import { useWalletProvider } from "@/hooks/use-wallet-provider";
 import { useAppKitAccount } from "@reown/appkit/react";
 import { AlertCircle, RefreshCw } from "lucide-react";
@@ -37,6 +38,19 @@ export function Tokens() {
 		isLoading: isLoadingPrices,
 		error: pricesError,
 	} = useTokenPrices();
+
+	const {
+		usdt: bpUsdt,
+		ngold: bpNgold,
+		pol: bpPol,
+	} = useTokenPricesBalances({
+		usdt: balances?.usdt,
+		ngold: balances?.ngold,
+		pol: balances?.pol,
+		usdtPrice: prices?.usdt,
+		ngoldPrice: goldPrice,
+		polPrice: prices?.pol,
+	});
 
 	const isLoading = isLoadingBalances || isLoadingPrice || isLoadingPrices;
 	const error = providerError || balancesError || priceError || pricesError;
@@ -104,7 +118,7 @@ export function Tokens() {
 						icon={<Ngold className="h-10 w-10 text-[#cfb53c]" />}
 						name="NGOLD"
 						price={goldPrice}
-						balance={balances?.ngold}
+						balance={bpNgold?.usdValue}
 						isLoading={isLoading}
 					/>
 
@@ -113,6 +127,7 @@ export function Tokens() {
 						name="USDT"
 						price={prices?.usdt}
 						balance={balances?.usdt}
+						otherBalance={bpUsdt?.usdValue}
 						isLoading={isLoading}
 					/>
 
@@ -121,6 +136,7 @@ export function Tokens() {
 						name="POL"
 						price={prices?.pol}
 						balance={balances?.pol}
+						otherBalance={bpPol?.usdValue}
 						isLoading={isLoading}
 					/>
 				</div>
