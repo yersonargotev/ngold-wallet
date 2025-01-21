@@ -7,17 +7,17 @@ import { useQuery } from "@tanstack/react-query";
 import { Contract, formatUnits } from "ethers";
 
 export const useGoldPrice = () => {
-	const { address, isConnected } = useAppKitAccount();
+	const { isConnected } = useAppKitAccount();
 	const { getProvider, isReady } = useWalletProvider();
 
 	return useQuery({
-		queryKey: ["gold-price", address],
+		queryKey: ["gold-price"],
 		queryFn: async (): Promise<string> => {
 			try {
 				const { signer } = await getProvider();
 				const GOLDContract = new Contract(goldAddress, GOLDABI, signer);
 
-				const price = await GOLDContract.getGramGoldPrice(address);
+				const price = await GOLDContract.getGramGoldPrice();
 				return formatUnits(price, DECIMALS.GOLD);
 			} catch (error) {
 				console.error("Error fetching gold price:", error);
