@@ -2,7 +2,6 @@ import { z } from "zod";
 
 // Primero, hacemos una única lectura de todas las variables que necesitamos
 const processEnv = {
-	NEXT_PUBLIC_ETHERSCAN_API_KEY: process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY,
 	NEXT_PUBLIC_PROJECT_ID: process.env.NEXT_PUBLIC_PROJECT_ID,
 	NODE_ENV: process.env.NODE_ENV,
 	NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
@@ -16,9 +15,6 @@ const processEnv = {
 
 // Define el esquema de validación
 const envSchema = z.object({
-	NEXT_PUBLIC_ETHERSCAN_API_KEY: z
-		.string()
-		.min(1, { message: "Etherscan API key is required" }),
 	NEXT_PUBLIC_PROJECT_ID: z
 		.string({
 			required_error: "Project ID is required in environment variables",
@@ -84,7 +80,6 @@ export default validatedEnv;
 
 // También podemos exportar variables individuales si lo preferimos
 export const {
-	NEXT_PUBLIC_ETHERSCAN_API_KEY: etherscanApiKey,
 	NEXT_PUBLIC_PROJECT_ID: projectId,
 	NEXT_PUBLIC_URL: url,
 	NEXT_PUBLIC_USDT_ADDRESS: usdtAddress,
