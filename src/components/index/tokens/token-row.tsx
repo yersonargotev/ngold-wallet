@@ -42,7 +42,12 @@ export const TokenRow = ({
 				</>
 			) : (
 				<>
-					<span className="font-medium">${balance ?? "0.00"}</span>
+					<span className="font-medium">
+						$
+						{Number(balance ?? 0).toLocaleString(undefined, {
+							maximumFractionDigits: 4,
+						})}
+					</span>
 					<span className="text-sm text-muted-foreground">
 						{Number(otherBalance ?? 0).toLocaleString(undefined, {
 							maximumFractionDigits: 4,
