@@ -6,14 +6,22 @@ const Ngold = ({
 }: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
-		viewBox="0 0 928.000000 713.000000"
-		preserveAspectRatio="xMidYMid meet"
+		viewBox="0 0 800 800"
 		className={className}
 		{...props}
 	>
-		<title>Ngold</title>
+		<title>NGOLD</title>
+		<circle cx={400} cy={400} r={350} fill="black" />
+		<circle
+			cx={400}
+			cy={400}
+			r={350}
+			fill="none"
+			stroke="currentColor"
+			strokeWidth={20}
+		/>
 		<g
-			transform="translate(0.000000,713.000000) scale(0.100000,-0.100000)"
+			transform="translate(125,620) scale(0.06,-0.06)"
 			fill="currentColor"
 			stroke="none"
 		>
