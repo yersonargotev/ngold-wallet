@@ -23,7 +23,7 @@ interface AddressIdenticonProps {
 const AddressIdenticon = ({
 	address,
 	type = "jazzicon", // 'jazzicon' o 'blockie'
-	size = 100, // tamaño en píxeles
+	size = 60, // tamaño en píxeles
 }: AddressIdenticonProps) => {
 	const jazziconRef = useRef<HTMLDivElement>(null);
 	const [iconType, setIconType] = useState(type);
@@ -49,7 +49,7 @@ const AddressIdenticon = ({
 	if (!address) return null;
 
 	return (
-		<div className="p-4 flex flex-col items-center gap-4">
+		<div className="flex flex-col items-center gap-4">
 			<Select
 				value={iconType}
 				onValueChange={(value: "jazzicon" | "blockie") => setIconType(value)}
