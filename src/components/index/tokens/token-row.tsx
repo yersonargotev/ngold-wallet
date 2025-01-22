@@ -1,4 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton";
+import TokenBadge from "./token-badge";
 
 interface TokenRowProps {
 	icon: React.ReactNode;
@@ -7,6 +8,7 @@ interface TokenRowProps {
 	balance?: string;
 	otherBalance?: string;
 	isLoading?: boolean;
+	showBridge?: boolean;
 }
 
 export const TokenRow = ({
@@ -16,10 +18,11 @@ export const TokenRow = ({
 	balance,
 	otherBalance,
 	isLoading,
+	showBridge,
 }: TokenRowProps) => (
 	<div className="flex items-center justify-between p-4 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors">
 		<div className="flex gap-3 items-center">
-			<div className="flex-shrink-0">{icon}</div>
+			<TokenBadge icon={icon} showBridge={showBridge} />
 			<div className="flex flex-col">
 				<h3 className="font-semibold text-base">{name}</h3>
 				{isLoading ? (

@@ -121,6 +121,7 @@ export function Tokens() {
 						balance={bpNgold?.usdValue}
 						otherBalance={balances?.ngold}
 						isLoading={isLoading}
+						showBridge={true}
 					/>
 
 					<TokenRow
@@ -130,6 +131,7 @@ export function Tokens() {
 						balance={bpUsdt?.usdValue}
 						otherBalance={balances?.usdt}
 						isLoading={isLoading}
+						showBridge={true}
 					/>
 
 					<TokenRow
