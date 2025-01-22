@@ -93,6 +93,7 @@ export function Balances() {
 			<BalanceCard
 				title="Current Gold Price"
 				mainValue={`$ ${formatDecimal(goldPrice, 4)}`}
+				subValue="Per Gram"
 				isLoading={isLoading}
 			/>
 		</div>
