@@ -15,7 +15,7 @@ export function Header() {
 					<div className="flex items-center gap-2">
 						<Link className="flex items-center gap-2" href="/">
 							<Image
-								src="/images/logo-ngold-white.png"
+								src="/logo.webp"
 								alt="NGOLD Logo"
 								width={40}
 								height={40}
