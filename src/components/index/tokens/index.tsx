@@ -52,6 +52,8 @@ export function Tokens() {
 		polPrice: prices?.pol,
 	});
 
+	console.log("BP: ", bpNgold, bpUsdt, bpPol);
+
 	const isLoading = isLoadingBalances || isLoadingPrice || isLoadingPrices;
 	const error = providerError || balancesError || priceError || pricesError;
 
@@ -118,7 +120,7 @@ export function Tokens() {
 						icon={<Ngold className="h-10 w-10 text-[#cfb53c]" />}
 						name="NGOLD"
 						price={goldPrice}
-						balance={bpNgold?.formatted}
+						balance={bpNgold?.usdValue}
 						otherBalance={balances?.ngold}
 						isLoading={isLoading}
 					/>
@@ -127,7 +129,7 @@ export function Tokens() {
 						icon={<Tether className="h-10 w-10" />}
 						name="USDT"
 						price={prices?.usdt}
-						balance={bpUsdt?.formatted}
+						balance={bpUsdt?.usdValue}
 						otherBalance={balances?.usdt}
 						isLoading={isLoading}
 					/>
@@ -136,7 +138,7 @@ export function Tokens() {
 						icon={<Polygon className="h-10 w-10" />}
 						name="POL"
 						price={prices?.pol}
-						balance={bpPol?.formatted}
+						balance={bpPol?.usdValue}
 						otherBalance={balances?.pol}
 						isLoading={isLoading}
 					/>
