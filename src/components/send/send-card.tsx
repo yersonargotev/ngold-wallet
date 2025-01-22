@@ -121,7 +121,7 @@ export function SendCard() {
 										<FormControl>
 											<Input
 												{...field}
-												placeholder="0xe87f...09F5"
+												placeholder="0x000...0000"
 												className="bg-background/80"
 											/>
 										</FormControl>
@@ -142,7 +142,7 @@ export function SendCard() {
 											<Input
 												{...field}
 												className="text-2xl"
-												placeholder="2"
+												placeholder="0"
 												onChange={(e) => handleAmountChange(e.target.value)}
 											/>
 										</FormControl>
@@ -167,7 +167,7 @@ export function SendCard() {
 											<Input
 												{...field}
 												className="text-2xl"
-												placeholder="$ 170.0"
+												placeholder="0"
 												onChange={(e) => handleUsdChange(e.target.value)}
 											/>
 										</FormControl>
