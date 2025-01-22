@@ -52,8 +52,6 @@ export function Tokens() {
 		polPrice: prices?.pol,
 	});
 
-	console.log("BP: ", bpNgold, bpUsdt, bpPol);
-
 	const isLoading = isLoadingBalances || isLoadingPrice || isLoadingPrices;
 	const error = providerError || balancesError || priceError || pricesError;
 
