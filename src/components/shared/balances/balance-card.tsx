@@ -18,9 +18,9 @@ export const BalanceCard = React.memo(function BalanceCard({
 	isLoading,
 }: BalanceCardProps) {
 	return (
-		<Card className="bg-muted/50 hover:bg-muted/70 transition-colors duration-200 backdrop-blur-sm">
+		<Card className="bg-muted/50 hover:bg-muted/70 transition-colors duration-200 backdrop-blur-sm px-4">
 			<CardHeader className="space-y-1 p-2">
-				<CardTitle className="flex flex-col items-center gap-2 text-lg text-center text-balance">
+				<CardTitle className="flex flex-col items-center gap-2 text-center text-balance">
 					{title}
 				</CardTitle>
 			</CardHeader>
@@ -32,7 +32,7 @@ export const BalanceCard = React.memo(function BalanceCard({
 					</div>
 				) : (
 					<div className="space-y-1">
-						<div className="text-[#cfb53c] text-2xl font-bold tracking-tight text-center">
+						<div className="text-[#cfb53c] font-bold tracking-tight text-center">
 							{mainValue}
 						</div>
 						{subValue && (
