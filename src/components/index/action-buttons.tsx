@@ -54,8 +54,8 @@ export function ActionButtons() {
 	}
 
 	return (
-		<div className="w-full overflow-x-auto px-4 py-2">
-			<div className="flex flex-row gap-4 items-center min-w-max justify-center">
+		<div className="w-full overflow-x-auto px-0 md:px-4 py-2">
+			<div className="flex flex-row gap-2 md:gap-4 items-center min-w-max justify-center">
 				{actionItems.map((item) => (
 					<div
 						key={item.label}
