@@ -19,7 +19,7 @@ export const BalanceCard = React.memo(function BalanceCard({
 }: BalanceCardProps) {
 	return (
 		<Card className="bg-muted/50 hover:bg-muted/70 transition-colors duration-200 backdrop-blur-sm">
-			<CardHeader className="space-y-1 p-4">
+			<CardHeader className="space-y-1 p-2">
 				<CardTitle className="flex flex-col items-center gap-2 text-lg text-center text-balance">
 					{title}
 				</CardTitle>
