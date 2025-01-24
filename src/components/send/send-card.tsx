@@ -1,5 +1,6 @@
 "use client";
 
+import { QRScannerButton } from "@/components/send/qr-scanner-button";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
@@ -119,11 +120,18 @@ export function SendCard() {
 								render={({ field }) => (
 									<FormItem>
 										<FormControl>
-											<Input
-												{...field}
-												placeholder="0x000...0000"
-												className="bg-background/80"
-											/>
+											<div className="relative">
+												<Input
+													{...field}
+													placeholder="0x000...0000"
+													className="bg-background/80 pr-12"
+												/>
+												<QRScannerButton
+													onAddressScanned={(address) => {
+														form.setValue("address", address);
+													}}
+												/>
+											</div>
 										</FormControl>
 									</FormItem>
 								)}
